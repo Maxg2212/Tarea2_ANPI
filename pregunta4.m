@@ -23,8 +23,8 @@ function pregunta4()
   q(3)=17;
   q(4)=-2;
 
-  z=sol(W,T,p,q);
-  display(sol);
+  z1=sol1(W,T,p,q);
+  z2=sol2(W,T,p,q);
 
 end
 
@@ -63,20 +63,27 @@ end
 function x=resQR(A,b)
   [Q, R] = qr(A);
   c=Q'*b;
-  x=elim_gauss_sust_atras(R,c);
+  x=sust_atras(R,c);
 end
 
-function z=sol(W,T,p,q)
-  M=zeros(2,2);
-  M(1,1)=W;
-  M(1,2)=-T;
-  M(2,1)=T;
-  M(2,2)=W;
+function z=sol1(W,T,p,q)
+  M=[W -T; T W];
 
-  d=zeros(2,1);
-  d(1)=p;
-  d(2)=q;
 
-  z=zeros(2,1);
+  d=[p;q];
+
+  z=elim_gauss_sust_atras(M,d);
+  display(z);
+
+end
+
+function z=sol2(W,T,p,q)
+  M=[W -T; T W];
+
+
+  d=[p;q];
+
   z=resQR(M,d);
+  display(z);
+
 end
