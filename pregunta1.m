@@ -6,11 +6,32 @@ function pregunta1()
   iterMax = 1000;
   tol = 1e-12;
 
-  HSS(A, b, x0, iterMax, tol);
+  %Medir el tiempo usando tic y toc.
+  tic;
+  [Sa,err,iter]=HSS(A, b, x0, iterMax, tol);
+  tiempo = toc;
+
+  fprintf('Error = %.4f \n', err);
+  fprintf('Tiempo de ejecución = %.4f segs\n', tiempo);
+  fprintf('Iteraciones = %.4f \n', iter);
+
 
 end
 
-function HSS(A, b, x0, iterMax, tol)
+% La funcion HSS aproxima la solucion de un sistema de ecuaciones usando el simple Hermitian and skew-Hermitian splitting methods.
+%Sintaxis de la funcion: [Sa,err,iter]=HSS(A, b, x0, iterMax, tol).
+%Parametros de entrada:
+%               A = Matriz de la combinacion W + iT.
+%               b = Matriz de la combinacion p + iq.
+%               x0 = La solucion cero del sistema de ecuaciones.
+%               iterMax = Numero que representa el maximo de iteraciones.
+%               tol = Numero que representa la tolerancia minima del problema.
+%Parametros de salida:
+%               Sa = la matriz con la aproximacion de los resultados.
+%               err = El error dado por la formula de parada.
+%               iter = La cantidad de iteraciones que se llevaron a cabo.
+function [Sa,err,iter]=HSS(A, b, x0, iterMax, tol)
+    %Obtener el tamaño de la matriz
     n = size(A);
     %Matrices
 
@@ -31,20 +52,18 @@ function HSS(A, b, x0, iterMax, tol)
       z = (inv_I_W * (I - i*T) * x) + (inv_I_W * b);
       x = ((inv_I_iT * (I - W) * z) + (inv_I_iT * b));
 
+      %Calculo del error
       error=norm(A*x-b);
       if abs(error)<=tol;
-        display(k);
-        display(abs(error));
-        display(x);
+        err=error;
+        iter=k;
+        Sa=x;
         break;
       end
+      err=error;
+      iter=k;
+      Sa=x;
     end
-    error=norm(A*x-b);
-
-    display(iterMax);
-    display(abs(error));
-    display(x);
-
  end
 
 
