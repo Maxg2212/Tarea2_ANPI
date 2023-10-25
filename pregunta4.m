@@ -1,27 +1,16 @@
 function pregunta4()
   W=zeros(4,4);
-  W(1,1)=12; W(1,2)=-2; W(1,3)=6; W(1,4)=-2;
-  W(2,1)=-2; W(2,2)=5; W(2,3)=2; W(2,4)=1;
-  W(3,1)=6; W(3,2)=2; W(3,3)=9; W(3,4)=-2;
-  W(4,1)=-2; W(4,2)=1; W(4,3)=-2; W(4,4)=1;
+  W=[12 -2 6 -2; -2 5 2 1; 6 2 9 -2; -2 1 -2 1];
 
   T=zeros(4,4);
-  T(1,1)=6; T(1,2)=2; T(1,3)=7; T(1,4)=2;
-  T(2,1)=-2; T(2,2)=7; T(2,3)=1; T(2,4)=1;
-  T(3,1)=7; T(3,2)=1; T(3,3)=9; T(3,4)=-0;
-  T(4,1)=2; T(4,2)=1; T(4,3)=0; T(4,4)=10;
+  T=[6 2 7 2; 2 7 1 1; 7 1 9 0; 2 1 0 10];
+
 
   p=zeros(4,1);
-  p(1)=9;
-  p(2)=-7;
-  p(3)=-5;
-  p(4)=7;
+  p=[9;-7;-5;7];
 
   q=zeros(4,1);
-  q(1)=12;
-  q(2)=-4;
-  q(3)=17;
-  q(4)=-2;
+  q=[12;-4;17;-2];
 
   z1=sol1(W,T,p,q);
   z2=sol2(W,T,p,q);
@@ -67,23 +56,66 @@ function x=resQR(A,b)
 end
 
 function z=sol1(W,T,p,q)
-  M=[W -T; T W];
+  display('---------------------------------------------------------------------')
 
+  display('Metodo Eliminacion Gausseana:');
+  tic;
+
+  M=[W -T; T W];
 
   d=[p;q];
 
   z=elim_gauss_sust_atras(M,d);
-  display(z);
+
+  u=[z(1);z(2);z(3);z(4)];
+  v=[z(5);z(6);z(7);z(8)];
+  x=u+(i*v);
+  %display(x);
+
+  A=W+(i*T);
+  b=p+(i*q);
+  err=norm((A*x)-b);
+  time=toc;
+
+  display('Error:');
+  display(err);
+  fprintf('\n');
+  display('Tiempo de ejecucion:');
+  display(time);
+  fprintf('\n');
+  fprintf('\n');
+  display('---------------------------------------------------------------------')
+
 
 end
 
 function z=sol2(W,T,p,q)
-  M=[W -T; T W];
+  display('Metodo QR:');
+  tic;
 
+  M=[W -T; T W];
 
   d=[p;q];
 
   z=resQR(M,d);
-  display(z);
+
+  u=[z(1);z(2);z(3);z(4)];
+  v=[z(5);z(6);z(7);z(8)];
+  x=u+(i*v);
+  %display(x);
+
+  A=W+(i*T);
+  b=p+(i*q);
+  err=norm((A*x)-b);
+  time=toc;
+
+  display('Error:');
+  display(err);
+  fprintf('\n');
+  display('Tiempo de ejecucion:');
+  display(time);
+  fprintf('\n');
+  fprintf('\n');
+  display('---------------------------------------------------------------------')
 
 end
