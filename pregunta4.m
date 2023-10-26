@@ -1,4 +1,14 @@
+% La funcion pregunta4 implementa metodos de eliminacion gausseana y factorizacion QR
+% para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
+% Sintaxis de la funcion: pregunta4(W, T, p, q)
+% Parametros de entrada:
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+% Parametros de salida:
 function pregunta4()
+  clc; clear;
   W=zeros(4,4);
   W=[12 -2 6 -2; -2 5 2 1; 6 2 9 -2; -2 1 -2 1];
 
@@ -12,11 +22,19 @@ function pregunta4()
   q=zeros(4,1);
   q=[12;-4;17;-2];
 
-  z1=sol1(W,T,p,q);
-  z2=sol2(W,T,p,q);
+  s1=elim_gauss(W,T,p,q);
+  s2=qr_method(W,T,p,q);
 
 end
 
+
+% La funcion sust_atras aplica el metodo de sustitucion hacia atras para resolver sistemas de ecuaciones
+% Sintaxis de la funcion: x=sust_atras(A,b)
+% Parametros de entrada:
+%         A = Matriz de medida 2m x 2m
+%         b = Matriz de medida 2m x 1
+% Parametros de salida:
+%         x = Matriz de medida 2m x 2m
 function x=sust_atras(A,b)
   m=length(b);
   x=zeros(m,1);
@@ -29,6 +47,15 @@ function x=sust_atras(A,b)
   end
 end
 
+
+% La funcion triang_sup convierte una matriz de entrada en triangular superior
+% Sintaxis de la funcion: [Ar,br]=triang_sup(A,b)
+% Parametros de entrada:
+%         A = Matriz de medida 2m x 2m
+%         b = Matriz de medida 2m x 1
+% Parametros de salida:
+%         Ar = Matriz de medida 2m x 2m
+%         br = Matriz de medida 2m x 1
 function [Ar,br]=triang_sup(A,b)
   m=size(A,1);
   At=[A b];
@@ -44,18 +71,18 @@ function [Ar,br]=triang_sup(A,b)
   br=At(:,m+1);
 end
 
-function x=elim_gauss_sust_atras(A,b)
-  [At,bt]=triang_sup(A,b);
-  x=sust_atras(At,bt);
-end
 
-function x=resQR(A,b)
-  [Q, R] = qr(A);
-  c=Q'*b;
-  x=sust_atras(R,c);
-end
-
-function z=sol1(W,T,p,q)
+% La funcion elim_gauss procesa las matrices de entrada para encontrar una solucion para x
+% mediante el metodo de eliminacion Gausseana
+% Sintaxis de la funcion: x=elim_gauss(W,T,p,q)
+% Parametros de entrada:
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+% Parametros de salida:
+%         x = Matriz de medida 2m x 1
+function x=elim_gauss(W,T,p,q)
   display('---------------------------------------------------------------------')
 
   display('Metodo Eliminacion Gausseana:');
@@ -65,12 +92,13 @@ function z=sol1(W,T,p,q)
 
   d=[p;q];
 
-  z=elim_gauss_sust_atras(M,d);
+  [At,bt]=triang_sup(M,d);
+  z=sust_atras(At,bt);
 
   u=[z(1);z(2);z(3);z(4)];
   v=[z(5);z(6);z(7);z(8)];
   x=u+(i*v);
-  %display(x);
+  display(x);
 
   A=W+(i*T);
   b=p+(i*q);
@@ -89,7 +117,21 @@ function z=sol1(W,T,p,q)
 
 end
 
-function z=sol2(W,T,p,q)
+
+% La funcion qr_method procesa las matrices de entrada para encontrar una solucion para x
+% mediante el metodo QR
+% Sintaxis de la funcion: x=qr_method(W,T,p,q)
+% Parametros de entrada:
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+% Parametros de salida:
+%         x = Matriz de medida 2m x 1
+function x=qr_method(W,T,p,q)
+  display('---------------------------------------------------------------------')
+
+
   display('Metodo QR:');
   tic;
 
@@ -97,12 +139,14 @@ function z=sol2(W,T,p,q)
 
   d=[p;q];
 
-  z=resQR(M,d);
+  [Q, R] = qr(M);
+  c=Q'*d;
+  x1=sust_atras(R,c);
 
-  u=[z(1);z(2);z(3);z(4)];
-  v=[z(5);z(6);z(7);z(8)];
+  u=[x1(1);x1(2);x1(3);x1(4)];
+  v=[x1(5);x1(6);x1(7);x1(8)];
   x=u+(i*v);
-  %display(x);
+  display(x);
 
   A=W+(i*T);
   b=p+(i*q);
