@@ -5,6 +5,17 @@ function pregunta5_E1()
 
   mvalues=[16;32;64;128;256];
 
+  display('Metodo 1: HSS');
+  for i=1:5
+    m=mvalues(i);
+    h=1/(m+1);
+    [f,g]=calc_f_g(m,h);
+    [W,T]=calc_W_T(m,h);
+
+    disp(["Caso", num2str(i), ": m=", num2str(m)]);
+    pregunta1(W, T, f, g);
+  endfor
+
   display('Metodos 4: QR y Eliminacion Gausseana');
   for i=1:5
     m=mvalues(i);

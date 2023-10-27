@@ -1,10 +1,20 @@
-function pregunta1()
-  clc; clear;
-  A = [12 -2 6 -2; -2 5 2 1; 6 2 9 -2; -2 1 -2 1] + (i*[6 2 7 2; 2 7 1 1; 7 1 9 0; 2 1 0 10]);
-  b = [9;-7;-5;7] + (i*[12;-4;17;-2]);
-  x0 = [0; 0; 0; 0];
-  iterMax = 1000;
-  tol = 1e-12;
+%Funcion pregunta1 implementa el metodo de simple Hermitian and skew Hermitian splitting method.
+% para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
+% Sintaxis de la funcion: pregunta1(W, T, p, q)
+% Parametros de entrada:
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+% Parametros de salida:
+function pregunta1(W, T, p, q)
+  %clc; clear;
+  A = W + i*T;
+  b = p + i*q;
+  m = length(b);
+  x0 = zeros(m,1);
+  iterMax = 5000;
+  tol = 1e-6;
 
   %Medir el tiempo usando tic y toc.
   tic;
@@ -54,7 +64,8 @@ function [Sa,err,iter]=HSS(A, b, x0, iterMax, tol)
 
       %Calculo del error
       error=norm(A*x-b);
-      if abs(error)<=tol;
+      tolerance = tol * norm(b);
+      if abs(error)<=abs(tolerance);
         err=error;
         iter=k;
         Sa=x;
