@@ -7,20 +7,19 @@
 %         p = Matriz de medida m x 1
 %         q = Matriz de medida m x 1
 % Parametros de salida:
-function pregunta4()
-  clc; clear;
-  W=zeros(4,4);
-  W=[12 -2 6 -2; -2 5 2 1; 6 2 9 -2; -2 1 -2 1];
+function pregunta4(W, T, p, q)
+  %W=zeros(4,4);
+  %W=[12 -2 6 -2; -2 5 2 1; 6 2 9 -2; -2 1 -2 1];
 
-  T=zeros(4,4);
-  T=[6 2 7 2; 2 7 1 1; 7 1 9 0; 2 1 0 10];
+  %T=zeros(4,4);
+  %T=[6 2 7 2; 2 7 1 1; 7 1 9 0; 2 1 0 10];
 
 
-  p=zeros(4,1);
-  p=[9;-7;-5;7];
+  %p=zeros(4,1);
+  %p=[9;-7;-5;7];
 
-  q=zeros(4,1);
-  q=[12;-4;17;-2];
+  %q=zeros(4,1);
+  %q=[12;-4;17;-2];
 
   s1=elim_gauss(W,T,p,q);
   s2=qr_method(W,T,p,q);
@@ -95,10 +94,32 @@ function x=elim_gauss(W,T,p,q)
   [At,bt]=triang_sup(M,d);
   z=sust_atras(At,bt);
 
-  u=[z(1);z(2);z(3);z(4)];
-  v=[z(5);z(6);z(7);z(8)];
+  %u=[z(1);z(2);z(3);z(4)];
+  %v=[z(5);z(6);z(7);z(8)];
+  %x=u+(i*v);
+  %display(x);
+
+  %-
+  m=size(z,1);
+  maux = m/2;
+  u=zeros(maux,1);
+  v=zeros(maux,1);
+
+  for j=1:maux
+    u(j)=z(j);
+  endfor
+
+  iaux=1;
+  for j=maux+1:m
+    v(iaux)=z(j);
+    iaux=iaux+1;
+  endfor
+
+
   x=u+(i*v);
-  display(x);
+  %display(x);
+
+  %-
 
   A=W+(i*T);
   b=p+(i*q);
@@ -143,10 +164,32 @@ function x=qr_method(W,T,p,q)
   c=Q'*d;
   x1=sust_atras(R,c);
 
-  u=[x1(1);x1(2);x1(3);x1(4)];
-  v=[x1(5);x1(6);x1(7);x1(8)];
+  %u=[x1(1);x1(2);x1(3);x1(4)];
+  %v=[x1(5);x1(6);x1(7);x1(8)];
+  %x=u+(i*v);
+  %display(x);
+
+  %-
+  m=size(x1,1);
+  maux = m/2;
+  u=zeros(maux,1);
+  v=zeros(maux,1);
+
+  for j=1:maux
+    u(j)=x1(j);
+  endfor
+
+  iaux=1;
+  for j=maux+1:m
+    v(iaux)=x1(j);
+    iaux=iaux+1;
+  endfor
+
+
   x=u+(i*v);
-  display(x);
+  %display(x);
+
+  %-
 
   A=W+(i*T);
   b=p+(i*q);
