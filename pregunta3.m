@@ -1,3 +1,13 @@
+% La funcion pregunta3 implementa la funcion llamada MHSS
+% para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
+% Esto lo hace llamando la funcion MHSS y ingresando las matrices W y T,
+% los vectores p y q, y por último los valores de iterMax y tol.
+% Sintaxis de la funcion: pregunta3 ()
+% Parametros de entrada:
+% 
+% Parametros de salida:
+%         MHSS (W, T, p, q, iterMax, tol)
+%
 function pregunta3 ()
   clc; clear;
 
@@ -32,6 +42,21 @@ function pregunta3 ()
 endfunction
 
 
+% La funcion MHSS implementa una modificacion del método iterativo utilizado en la pregunta1
+% para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
+% Sintaxis de la funcion: MHSS (W, T, p, q, iterMax, tol)
+% Parametros de entrada:
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+%         iterMax = valor int de la iteracion maxima permitida
+%         tol = valor int de Tolerancia
+% Parametros de salida:
+%         alfa_ast = valor optimo de a*
+%         xk = valor aproximado de xk
+%         i = numero de Iteraciones
+%         error = criterio de parada
 function  MHSS (W, T, p, q, iterMax, tol)
 
   # Variable compleja
