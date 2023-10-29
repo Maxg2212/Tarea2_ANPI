@@ -64,8 +64,8 @@ function [Ans, err, iter] = metodo_PNHSS(A, b, iterMax, tol)
   T = imag(A);
 
   %Constantes omega y alpha
-  w = 0.65;
-  a = 0.01;
+  w = 1;
+  a = 1;
 
   %Itera el metodo hasta que se cumpla el criterio de parada o el maximo de
   %iteraciones.
