@@ -12,6 +12,7 @@
 function pregunta2(W, T, p, q)
   %clc; clear;
 
+
   A = W + i*T;
   b = p + i*q;
 
@@ -63,8 +64,8 @@ function [Ans, err, iter] = metodo_PNHSS(A, b, iterMax, tol)
   T = imag(A);
 
   %Constantes omega y alpha
-  w = 1;
-  a = 1;
+  w = 0.65;
+  a = 0.01;
 
   %Itera el metodo hasta que se cumpla el criterio de parada o el maximo de
   %iteraciones.
@@ -110,9 +111,8 @@ function [Ans, err, iter] = metodo_PSHSS(A, b, iterMax, tol)
   W = real(A);
   T = imag(A);
 
-  %Constantes omega y alpha
+  %Constante omega
   w = 1;
-  a = 1;
 
   %Itera el metodo hasta que se cumpla el criterio de parada o el maximo de
   %iteraciones.
