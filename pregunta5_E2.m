@@ -23,6 +23,26 @@ function pregunta5_E2()
     pregunta1(W, T, f, g);
   endfor
 
+  %display('Metodos 4: QR y Eliminacion Gausseana');
+  %for i=1:5
+  %  m = mvalues(i);
+  %  h = 1 / (m + 1);
+  %  [W,T] = calc_W_T(m,h);
+  %  [f,g] = calc_f_g(m);
+
+  %  disp(["Caso", num2str(i), ": m=", num2str(m)]);
+  %  pregunta4(W, T, f, g);
+  %endfor
+
+    %m=5;
+    %h = 1 / (m + 1);
+    %[W,T] = calc_W_T(m,h);
+    %[f,g] = calc_f_g(m);
+    %display(W);
+    %display(T);
+    %display(f);
+    %display(g);
+
 end
 
 %Funcion [W,T]=calc_W_T(m,h) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
