@@ -13,17 +13,6 @@ function pregunta5_E2()
   mvalues = [16; 32; 64; 128; 256];
 
   display('Metodo 1: HSS');
-  for i=1:5
-    m = mvalues(i);
-    h = 1 / (m + 1);
-    [W,T] = calc_W_T(m,h);
-    [f,g] = calc_f_g(m);
-
-    disp(["Caso", num2str(i), ": m=", num2str(m)]);
-    pregunta1(W, T, f, g);
-  endfor
-
-  %display('Metodos 4: QR y Eliminacion Gausseana');
   %for i=1:5
   %  m = mvalues(i);
   %  h = 1 / (m + 1);
@@ -31,8 +20,19 @@ function pregunta5_E2()
   %  [f,g] = calc_f_g(m);
 
   %  disp(["Caso", num2str(i), ": m=", num2str(m)]);
-  %  pregunta4(W, T, f, g);
+  %  pregunta1(W, T, f, g);
   %endfor
+
+  display('Metodos 4: QR y Eliminacion Gausseana');
+  for i=1:5
+    m = mvalues(i);
+    h = 1 / (m + 1);
+    [W,T] = calc_W_T(m,h);
+    [f,g] = calc_f_g(m);
+
+    disp(["Caso", num2str(i), ": m=", num2str(m)]);
+    pregunta4(W, T, f, g);
+  endfor
 
     %m=5;
     %h = 1 / (m + 1);
@@ -65,8 +65,10 @@ function [W,T]=calc_W_T(m,h)
   cita1 = -10;
   cita2 = 1;
   K =  kron(I,Vm) + kron(Vm,I);
-  W = K+(cita1*I);
-  T = cita2*I;
+  r=size(K,1);
+  W = K+(cita1*I1);
+  T = cita2*I1;
+
 end
 
 %Funcion [f,g]=calc_f_g(m) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
