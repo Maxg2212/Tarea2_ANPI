@@ -2,11 +2,16 @@
 % para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
 % Esto lo hace llamando la funcion MHSS y ingresando las matrices W y T,
 % los vectores p y q.
-% Sintaxis de la funcion: pregunta3 ()
+% Sintaxis de la funcion: pregunta3 (W, T, p ,q, iterMax, tol)
 % Parametros de entrada:
-%
+%         W = Matriz de medida m x m
+%         T = Matriz de medida m x m
+%         p = Matriz de medida m x 1
+%         q = Matriz de medida m x 1
+%         iterMax = iteracion maxima
+%         tol = tolerancia
 % Parametros de salida:
-%         MHSS (W, T, p, q)
+%         MHSS (A, b, x0, iterMax, tol)
 %
 
 
@@ -14,18 +19,18 @@ function pregunta3 (W, T, p ,q, iterMax, tol)
   #clc; clear;
 
   # Matrices iniciales
-    W = [12, -2, 6, -2; -2, 5, 2, 1; 6, 2, 9, -2; -2, 1, -2, 1];
-    T = [6, 2, 7, 2; 2, 7, 1, 1; 7, 1, 9, 0; 2, 1, 0, 10];
+    %W = [12, -2, 6, -2; -2, 5, 2, 1; 6, 2, 9, -2; -2, 1, -2, 1];
+    %T = [6, 2, 7, 2; 2, 7, 1, 1; 7, 1, 9, 0; 2, 1, 0, 10];
 
     # Vectores iniciales
-     p = [9; -7; -5; 7];
-     q = [12; -4; 17; -2];
+     %p = [9; -7; -5; 7];
+     %q = [12; -4; 17; -2];
 
     # Iteracion maxima
-      iterMax = 1000;
+      %iterMax = 1000;
 
     # Tolerancia
-    tol = 1e-12;
+    %tol = 1e-12;
 
     # Variable compleja
     j = sqrt(-1);
@@ -49,12 +54,13 @@ endfunction
 
 % La funcion MHSS implementa una modificacion del método iterativo utilizado en la pregunta1
 % para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
-% Sintaxis de la funcion: MHSS (W, T, p, q, iterMax, tol)
+% Sintaxis de la funcion: MHSS (A, b, x0, iterMax, tol)
 % Parametros de entrada:
-%         W = Matriz de medida m x m
-%         T = Matriz de medida m x m
-%         p = Matriz de medida m x 1
-%         q = Matriz de medida m x 1
+%         A = W + jT
+%         b = p + jq
+%         x0 = xk
+%         iterMax = iteracion maxima
+%         tol = tolerancia
 % Parametros de salida:
 %         alfa_ast = valor optimo de a*
 %         xk = valor aproximado de xk
@@ -63,16 +69,23 @@ endfunction
 function  MHSS (A, b, x0, iterMax, tol)
 
 
-
+  # Tamaño matriz A
   n = size(A);
 
+  # Matriz identidad
   Im = eye(n,n);
 
+  # Parte real de numero complejo
   W = real(A);
+
+  # Parte imaginaria de numero complejo
   T = imag(A);
+
+  # Matriz identidad
   I = eye(n,n);
 
   xk = x0;
+
 
 
   # Matrices iniciales en cero
