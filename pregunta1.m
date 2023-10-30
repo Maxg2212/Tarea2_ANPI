@@ -66,7 +66,7 @@ function [Sa,err,iter]=HSS(A, b, x0, iterMax, tol)
       %Calculo del error
       error=norm(A*x-b);
       tolerance = tol * norm(b);
-      if abs(error)<=abs(tolerance);
+      if abs(error)<=tolerance;
         break;
       end
     end

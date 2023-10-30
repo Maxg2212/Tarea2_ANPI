@@ -13,27 +13,38 @@ function pregunta5_E2()
   mvalues = [16; 32; 64; 128; 256];
 
   display('Metodo 1: HSS');
-  %for i=1:5
-  %  m = mvalues(i);
-  %  h = 1 / (m + 1);
-  %  [W,T] = calc_W_T(m,h);
-  %  [f,g] = calc_f_g(m);
+  for i=1:5
+    m = mvalues(i);
+    h = 1 / (m + 1);
+    [W,T] = calc_W_T_2(m,h);
+    [f,g] = calc_f_g(m);
 
-  %  disp(["Caso", num2str(i), ": m=", num2str(m)]);
-  %  pregunta1(W, T, f, g);
-  %endfor
+    disp(["Caso", num2str(i), ": m=", num2str(m)]);
+    pregunta1(W, T, f, g);
+  endfor
 
   fprintf('\n');
   display('Metodo 2: PNHSS & PS*HSS');
   for i=1:5
     m = mvalues(i);
     h = 1 / (m + 1);
-    [W, T] = calc_W_T(m, h);
+    [W, T] = calc_W_T_2(m, h);
     [f, g] = calc_f_g(m);
 
     fprintf('\n');
     disp(["Caso", num2str(i), ": m=", num2str(m)]);
     pregunta2(W, T, f, g);
+  endfor
+
+  display('Metodo 3: MHSS');
+  for i=1:5
+    m = mvalues(i);
+    h = 1 / (m + 1);
+    [W,T] = calc_W_T(m,h);
+    [f,g] = calc_f_g(m);
+
+    disp(["Caso", num2str(i), ": m=", num2str(m)]);
+    pregunta3(W, T, f, g, 5000, 1e-6);
   endfor
 
   fprintf('\n');
@@ -75,7 +86,31 @@ function [W,T]=calc_W_T(m,h)
   A = tridiag(-1,2,-1,m);
   Vm = (1/h^2)*A;
   cita1 = -10;
-  cita2 = 1;
+  cita2 = 10;
+  I1 = eye(m);
+  K =  kron(I,Vm) + kron(Vm,I);
+  W = K+(cita1*I1);
+  T = cita2*I1;
+
+end
+
+%Funcion [W,T]=calc_W_T_2(m,h) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
+%
+% Sintaxis de la funcion: [W,T]=calc_W_T_2(m,h)
+%
+% Parametros de entrada:
+%             m = el tamano de la matriz que se desea crear.
+%             h = es el tamano de la malla que se desea crear.
+%
+% Parametros de salida:
+%             W = la primera matriz del sistema que sumada a T equivalen a A.
+%             T = la segunda matriz del sistema que multiplicada por i y sumada con W equivale a A.
+%
+function [W,T]=calc_W_T_2(m,h)
+  A = tridiag(-1,2,-1,m);
+  Vm = (1/h^2)*A;
+  cita1 = -10;
+  cita2 = 10;
   K =  kron(I,Vm) + kron(Vm,I);
   W = K+(cita1*I);
   T = cita2*I;

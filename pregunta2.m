@@ -37,6 +37,7 @@ function pregunta2(W, T, p, q)
   fprintf('Error = %.4f \n', err);
   fprintf('Tiempo de ejecución = %.4f segs\n', tiempo);
   fprintf('Iteraciones = %.4f \n', iter);
+  display('-----------------------------------------------------------');
 
 endfunction
 

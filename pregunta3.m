@@ -138,6 +138,7 @@ endfor
   display(['Valor de alfa = ', num2str(alfa_ast)])
   display(['Iteraciones: i = ', num2str(iter)])
   display(['Error: ||A*xk - b||_2 = ', num2str(error)])
+  display('------------------------------------------------------------');
 
 
 endfunction
