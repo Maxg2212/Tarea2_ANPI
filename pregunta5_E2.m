@@ -23,6 +23,20 @@ function pregunta5_E2()
   %  pregunta1(W, T, f, g);
   %endfor
 
+  fprintf('\n');
+  display('Metodo 2: PNHSS & PS*HSS');
+  for i=1:5
+    m = mvalues(i);
+    h = 1 / (m + 1);
+    [W, T] = calc_W_T(m, h);
+    [f, g] = calc_f_g(m);
+
+    fprintf('\n');
+    disp(["Caso", num2str(i), ": m=", num2str(m)]);
+    pregunta2(W, T, f, g);
+  endfor
+
+  fprintf('\n');
   display('Metodos 4: QR y Eliminacion Gausseana');
   for i=1:5
     m = mvalues(i);
@@ -59,15 +73,12 @@ end
 %
 function [W,T]=calc_W_T(m,h)
   A = tridiag(-1,2,-1,m);
-  Vm = (h^-2)*A;
-  I1 = eye(m);
-  I2 = eye(m^2);
+  Vm = (1/h^2)*A;
   cita1 = -10;
   cita2 = 1;
   K =  kron(I,Vm) + kron(Vm,I);
-  r=size(K,1);
-  W = K+(cita1*I1);
-  T = cita2*I1;
+  W = K+(cita1*I);
+  T = cita2*I;
 
 end
 
