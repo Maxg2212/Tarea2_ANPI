@@ -73,10 +73,8 @@ function [W,T]=calc_W_T(m,h)
   I2=eye(m^2);
   tau=h;
   K=(kron(I,bm))+(kron(bm,I));
-  W=(K+((3-sqrt(3))/tau))*I;
-  T=(K+((3+sqrt(3))/tau))*I;
-  W = W*h^2;
-  T = T*h^2;
+  W=((K+((3-sqrt(3))/tau))*I);
+  T=((K+((3+sqrt(3))/tau))*I);
 end
 
 % La funcion calc_f_g calcula los valores de las matrices f y g.
@@ -94,8 +92,6 @@ function [f,g]=calc_f_g(m,h)
     fj=(1-i)*j/(h*(j+1)^2);
     f(j)=real(fj);
     g(j)=imag(fj);
-    f = f*h^2;
-    g = f*h^2;
   end
 end
 
