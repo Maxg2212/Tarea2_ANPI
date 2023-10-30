@@ -1,43 +1,48 @@
 % La funcion pregunta3 implementa la funcion llamada MHSS
 % para obtener la solucion del problema de sistemas de ecuaciones con valores complejos.
 % Esto lo hace llamando la funcion MHSS y ingresando las matrices W y T,
-% los vectores p y q, y por último los valores de iterMax y tol.
+% los vectores p y q.
 % Sintaxis de la funcion: pregunta3 ()
 % Parametros de entrada:
-% 
-% Parametros de salida:
-%         MHSS (W, T, p, q, iterMax, tol)
 %
-function pregunta3 ()
-  clc; clear;
+% Parametros de salida:
+%         MHSS (W, T, p, q)
+%
 
-    # Matrices iniciales
-    W = [12, -2, 6, -2;
-         -2, 5, 2, 1;
-          6, 2, 9, -2;
-         -2, 1, -2, 1];
-    T = [6, 2, 7, 2;
-         2, 7, 1, 1;
-         7, 1, 9, 0;
-         2, 1, 0, 10];
+
+function pregunta3 (W, T, p ,q, iterMax, tol)
+  #clc; clear;
+
+  # Matrices iniciales
+    W = [12, -2, 6, -2; -2, 5, 2, 1; 6, 2, 9, -2; -2, 1, -2, 1];
+    T = [6, 2, 7, 2; 2, 7, 1, 1; 7, 1, 9, 0; 2, 1, 0, 10];
 
     # Vectores iniciales
-     p = [9;
-          -7;
-          -5;
-           7];
-     q = [12;
-          -4;
-          17;
-          -2];
-      # Iteracion maxima
+     p = [9; -7; -5; 7];
+     q = [12; -4; 17; -2];
+
+    # Iteracion maxima
       iterMax = 1000;
 
-      # Tolerancia
-      tol = 1e-12;
+    # Tolerancia
+    tol = 1e-12;
+
+    # Variable compleja
+    j = sqrt(-1);
+
+    # Matrices Complejas
+    A = W + j * T;
+    b = p + j * q;
+
+    n = length(b);
+
+    # Valor inicial de xk (es decir, x0)
+    x0 = zeros(n,1);
+
+
 
       #Llamada a funcion MHSS
-      MHSS (W, T, p, q, iterMax, tol)
+       MHSS (A, b, x0, iterMax, tol)
 
 endfunction
 
@@ -50,32 +55,33 @@ endfunction
 %         T = Matriz de medida m x m
 %         p = Matriz de medida m x 1
 %         q = Matriz de medida m x 1
-%         iterMax = valor int de la iteracion maxima permitida
-%         tol = valor int de Tolerancia
 % Parametros de salida:
 %         alfa_ast = valor optimo de a*
 %         xk = valor aproximado de xk
 %         i = numero de Iteraciones
 %         error = criterio de parada
-function  MHSS (W, T, p, q, iterMax, tol)
+function  MHSS (A, b, x0, iterMax, tol)
 
-  # Variable compleja
-  j = sqrt(-1);
-  n = length(p);
-  Im = eye(size(W));
 
-  # Valor inicial de xk (es decir, x0)
-  xk = zeros(4,1);
+
+  n = size(A);
+
+  Im = eye(n,n);
+
+  W = real(A);
+  T = imag(A);
+  I = eye(n,n);
+
+  xk = x0;
+
 
   # Matrices iniciales en cero
-  A = zeros(n,n);
-  b = zeros(n,1);
-  M = zeros(n,n);
-  N = zeros(n,n);
+  %A = zeros(n,n);
+  %b = zeros(n,1);
+  %M = zeros(n,n);
+  %N = zeros(n,n);
 
-  # Matrices Complejas
-  A = W + j * T;
-  b = p + j * q;
+
 
   # Determinación de el valor más pequeño y el valor más grande de una matriz,
   # respectivamente
@@ -97,24 +103,27 @@ function  MHSS (W, T, p, q, iterMax, tol)
 
   # Calcular sucesion desde i = 0 hasta iterMax
   for i = 0 : iterMax
-      xk_next = (M * xk + N * b);
+      xk_next = M * xk + N * b;
 
-      error = norm(xk - b); #Critero de parada
+      error = norm(A * xk - b); #Critero de parada
 
       xk = xk_next; #Actualizacion de valor xk
-      if error <= tol
+      if error <= tol * norm(b)
         break
       endif
 
 endfor
+      err = error;
+      iter=i;
+      x = xk;
 
   # Resultados
   display('Resultados del metodo MHSS')
   display('Aproximacion de xk = [')
-  display(xk')
+  display(x')
   display(']')
   display(['Valor de alfa = ', num2str(alfa_ast)])
-  display(['Iteraciones: i = ', num2str(i)])
+  display(['Iteraciones: i = ', num2str(iter)])
   display(['Error: ||A*xk - b||_2 = ', num2str(error)])
 
 
