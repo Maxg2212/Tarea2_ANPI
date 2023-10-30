@@ -6,7 +6,7 @@ function pregunta5_E1()
   mvalues=[16;32;64;128;256];
 
   display('Metodo 1: HSS');
-  for i=1:5
+  for i=1:1
     m=mvalues(i);
     h=1/(m+1);
     [f,g]=calc_f_g(m,h);
@@ -18,7 +18,7 @@ function pregunta5_E1()
 
   fprintf('\n');
   display('Metodo 2: PNHSS & PS*HSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W, T] = calc_W_T(m, h);
@@ -31,7 +31,7 @@ function pregunta5_E1()
 
 
   display('Método 3: MHSS');
-  for i = 1 : 5
+  for i = 1 : 1
     m = mvalues(i);
     h = 1/(m+1);
     [f,g]=calc_f_g(m,h);
@@ -46,7 +46,7 @@ function pregunta5_E1()
   endfor
 
   display('Metodos 4: QR y Eliminacion Gausseana');
-  for i=1:5
+  for i=1:1
     m=mvalues(i);
     h = 1/(m+1);
     [f,g]=calc_f_g(m,h);
@@ -75,14 +75,8 @@ function [W,T]=calc_W_T(m,h)
   K=(kron(I,bm))+(kron(bm,I));
   W=(K+((3-sqrt(3))/tau))*I;
   T=(K+((3+sqrt(3))/tau))*I;
-  %A = tridiag(-1, 2, -1, m);
-  %Vm = (1/h^2)*A;
-  %cita1 = -10;
-  %cita2 = 1;
-  %K = kron(I,Vm) + kron(Vm,I);
-  %W = K + (cita1*I);
-  %T = cita2 * I;
-
+  W = W*h^2;
+  T = T*h^2;
 end
 
 % La funcion calc_f_g calcula los valores de las matrices f y g.
@@ -100,6 +94,8 @@ function [f,g]=calc_f_g(m,h)
     fj=(1-i)*j/(h*(j+1)^2);
     f(j)=real(fj);
     g(j)=imag(fj);
+    f = f*h^2;
+    g = f*h^2;
   end
 end
 

@@ -55,9 +55,6 @@ function [Sa,err,iter]=HSS(A, b, x0, iterMax, tol)
 
     %Iterar hasta que se cumpla el criterio de parada o el maximo de iteraciones.
     for k=1:iterMax
-      %z = (inv(I + W) * (I - i*T) * x) + (inv(I + W) * b);
-      %x = ((inv(I + i*T) * (I - W) * z) + (inv(I + i*T) * b));
-
       inv_I_W = (I+W)\I;
       inv_I_iT = (I+i*T)\I;
       z = (inv_I_W * (I - i*T) * x) + (inv_I_W * b);
