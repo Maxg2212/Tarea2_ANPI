@@ -13,7 +13,7 @@ function pregunta5_E2()
   mvalues = [16; 32; 64; 128; 256];
 
   display('Metodo 1: HSS');
-  for i=1:1
+  for i=1:5
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
@@ -26,7 +26,7 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodo 2: PNHSS & PS*HSS');
-  for i=1:1
+  for i=1:5
     m = mvalues(i);
     h = 1 / (m + 1);
     [W, T] = calc_W_T(m, h);
@@ -39,7 +39,7 @@ function pregunta5_E2()
   endfor
 
   display('Metodo 3: MHSS');
-  for i=1:1
+  for i=1:5
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
@@ -52,7 +52,7 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodos 4: QR y Eliminacion Gausseana');
-  for i=1:1
+  for i=1:5
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
