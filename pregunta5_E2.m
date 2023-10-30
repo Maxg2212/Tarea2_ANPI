@@ -13,11 +13,12 @@ function pregunta5_E2()
   mvalues = [16; 32; 64; 128; 256];
 
   display('Metodo 1: HSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
-    [W,T] = calc_W_T_2(m,h);
-    [f,g] = calc_f_g(m);
+    [W,T] = calc_W_T(m,h);
+    A = W+i*T;
+    [f,g] = calc_f_g(m,A,h);
 
     disp(["Caso", num2str(i), ": m=", num2str(m)]);
     pregunta1(W, T, f, g);
@@ -25,11 +26,12 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodo 2: PNHSS & PS*HSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
-    [W, T] = calc_W_T_2(m, h);
-    [f, g] = calc_f_g(m);
+    [W, T] = calc_W_T(m, h);
+    A = W+i*T;
+    [f,g] = calc_f_g(m,A,h);
 
     fprintf('\n');
     disp(["Caso", num2str(i), ": m=", num2str(m)]);
@@ -37,11 +39,12 @@ function pregunta5_E2()
   endfor
 
   display('Metodo 3: MHSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
-    [f,g] = calc_f_g(m);
+    A = W+i*T;
+    [f,g] = calc_f_g(m,A,h);
 
     disp(["Caso", num2str(i), ": m=", num2str(m)]);
     pregunta3(W, T, f, g, 5000, 1e-6);
@@ -49,25 +52,16 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodos 4: QR y Eliminacion Gausseana');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
-    [f,g] = calc_f_g(m);
+    A = W+i*T;
+    [f,g] = calc_f_g(m,A,h);
 
     disp(["Caso", num2str(i), ": m=", num2str(m)]);
     pregunta4(W, T, f, g);
   endfor
-
-    %m=5;
-    %h = 1 / (m + 1);
-    %[W,T] = calc_W_T(m,h);
-    %[f,g] = calc_f_g(m);
-    %display(W);
-    %display(T);
-    %display(f);
-    %display(g);
-
 end
 
 %Funcion [W,T]=calc_W_T(m,h) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
@@ -85,37 +79,18 @@ end
 function [W,T]=calc_W_T(m,h)
   A = tridiag(-1,2,-1,m);
   Vm = (1/h^2)*A;
-  cita1 = -10;
-  cita2 = 10;
+  cita1 = -1;
+  cita2 = 1;
   I1 = eye(m);
+  I2= eye(m^2);
   K =  kron(I,Vm) + kron(Vm,I);
   W = K+(cita1*I1);
   T = cita2*I1;
+  W = W*h^2;
+  T = T*h^2;
 
 end
 
-%Funcion [W,T]=calc_W_T_2(m,h) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
-%
-% Sintaxis de la funcion: [W,T]=calc_W_T_2(m,h)
-%
-% Parametros de entrada:
-%             m = el tamano de la matriz que se desea crear.
-%             h = es el tamano de la malla que se desea crear.
-%
-% Parametros de salida:
-%             W = la primera matriz del sistema que sumada a T equivalen a A.
-%             T = la segunda matriz del sistema que multiplicada por i y sumada con W equivale a A.
-%
-function [W,T]=calc_W_T_2(m,h)
-  A = tridiag(-1,2,-1,m);
-  Vm = (1/h^2)*A;
-  cita1 = -10;
-  cita2 = 10;
-  K =  kron(I,Vm) + kron(Vm,I);
-  W = K+(cita1*I);
-  T = cita2*I;
-
-end
 
 %Funcion [f,g]=calc_f_g(m) implementa un algoritmo que nos permite crear los valores para las matrices de tamano m*m.
 %
@@ -128,28 +103,25 @@ end
 %             f = la primera matriz del sistema que sumada a g equivalen a b.
 %             g = la segunda matriz del sistema que multiplicada por i y sumada con f equivale a b.
 %
-function [f,g]=calc_f_g(m)
-  A = tridiag(-1,2,-1,m);
-  Im = eye(m,1);
+function [f,g]=calc_f_g(m,A,h)
+  Im = ones(m,1);
   f = A*Im;
   g = A*Im;
+  f=f*h^2;
+  g=g*h^2;
   end
 
 
 
-function KronAB=kron(A,B)
-  [m, n] = size(A);
-  [p, q] = size(B);
-  KronAB = zeros(m * p, n * q);
-  for i = 1:m
-    for j = 1:n
-      KronAB((i - 1) * p + 1:i * p, (j - 1) * q + 1:j * q) = A(i, j) * B;
-    end
-  end
-end
-
-
-
+% La funcion tridiag realiza una matriz tridiagonal con lo valores mostrados.
+% Sintaxis de la funcion: A = tridiag(a, b, c, n)
+% Parametros de entrada:
+%         a = Primer valor de la tridiagonal de la matriz
+%         b = Segundo valor de la tridiagonal de la matriz
+%         c = Tercer valor de la tridiagonal de la matriz
+%         n = Tamaño de la matriz
+% Parametros de salida:
+%         A = Matriz tridiagonal producida
 function A = tridiag(a, b, c, n)
   A = b * eye(n);
   A = A + a * diag(ones(n-1, 1), -1);
