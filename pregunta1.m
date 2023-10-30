@@ -24,6 +24,7 @@ function pregunta1(W, T, p, q)
   fprintf('Error = %.4f \n', err);
   fprintf('Tiempo de ejecución = %.4f segs\n', tiempo);
   fprintf('Iteraciones = %.4f \n', iter);
+  display('-------------------------------------------------------------');
 
 
 end
@@ -66,15 +67,12 @@ function [Sa,err,iter]=HSS(A, b, x0, iterMax, tol)
       error=norm(A*x-b);
       tolerance = tol * norm(b);
       if abs(error)<=abs(tolerance);
-        err=error;
-        iter=k;
-        Sa=x;
         break;
       end
-      err=error;
-      iter=k;
-      Sa=x;
     end
+    err=error;
+    iter=k;
+    Sa=x;
  end
 
 
