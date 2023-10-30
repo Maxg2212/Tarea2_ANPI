@@ -13,7 +13,7 @@ function pregunta5_E2()
   mvalues = [16; 32; 64; 128; 256];
 
   display('Metodo 1: HSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
@@ -26,7 +26,7 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodo 2: PNHSS & PS*HSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W, T] = calc_W_T(m, h);
@@ -39,7 +39,7 @@ function pregunta5_E2()
   endfor
 
   display('Metodo 3: MHSS');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
@@ -52,7 +52,7 @@ function pregunta5_E2()
 
   fprintf('\n');
   display('Metodos 4: QR y Eliminacion Gausseana');
-  for i=1:5
+  for i=1:1
     m = mvalues(i);
     h = 1 / (m + 1);
     [W,T] = calc_W_T(m,h);
@@ -83,9 +83,9 @@ function [W,T]=calc_W_T(m,h)
   cita2 = 1;
   I1 = eye(m);
   I2= eye(m^2);
-  K =  kron(I,Vm) + kron(Vm,I);
-  W = K+(cita1*I1);
-  T = cita2*I1;
+  K =  kron(I1,Vm) + kron(Vm,I1);
+  W = K+(cita1*I2);
+  T = cita2*I2;
   W = W*h^2;
   T = T*h^2;
 
@@ -104,7 +104,7 @@ end
 %             g = la segunda matriz del sistema que multiplicada por i y sumada con f equivale a b.
 %
 function [f,g]=calc_f_g(m,A,h)
-  Im = ones(m,1);
+  Im = ones(m^2,1);
   f = A*Im;
   g = A*Im;
   f=f*h^2;

@@ -72,9 +72,11 @@ function [W,T]=calc_W_T(m,h)
   I1=eye(m);
   I2=eye(m^2);
   tau=h;
-  K=(kron(I,bm))+(kron(bm,I));
-  W=((K+((3-sqrt(3))/tau))*I);
-  T=((K+((3+sqrt(3))/tau))*I);
+  K=(kron(I1,bm))+(kron(bm,I1));
+  W=((K+((3-sqrt(3))/tau))*I2);
+  T=((K+((3+sqrt(3))/tau))*I2);
+  W = W*h^2;
+  T = T*h^2;
 end
 
 % La funcion calc_f_g calcula los valores de las matrices f y g.
@@ -86,13 +88,16 @@ end
 %         f = Matriz de medida m x 1
 %         g = Matriz de medida m x 1
 function [f,g]=calc_f_g(m,h)
-  f=zeros(m,1);
-  g=zeros(m,1);
+  f=zeros(m^2,1);
+  g=zeros(m^2,1);
   for j=1:m
     fj=(1-i)*j/(h*(j+1)^2);
     f(j)=real(fj);
     g(j)=imag(fj);
   end
+  f = f*h^2;
+  g = g*h^2;
+
 end
 
 % La funcion kron realiza el calculo del producto de Kronecker.
