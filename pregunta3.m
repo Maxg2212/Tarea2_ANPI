@@ -16,22 +16,6 @@
 
 
 function pregunta3 (W, T, p ,q, iterMax, tol)
-  #clc; clear;
-
-  # Matrices iniciales
-    %W = [12, -2, 6, -2; -2, 5, 2, 1; 6, 2, 9, -2; -2, 1, -2, 1];
-    %T = [6, 2, 7, 2; 2, 7, 1, 1; 7, 1, 9, 0; 2, 1, 0, 10];
-
-    # Vectores iniciales
-     %p = [9; -7; -5; 7];
-     %q = [12; -4; 17; -2];
-
-    # Iteracion maxima
-      %iterMax = 1000;
-
-    # Tolerancia
-    %tol = 1e-12;
-
     # Variable compleja
     j = sqrt(-1);
 
@@ -132,9 +116,6 @@ endfor
 
   # Resultados
   display('Resultados del metodo MHSS')
-  display('Aproximacion de xk = [')
-  display(x')
-  display(']')
   display(['Valor de alfa = ', num2str(alfa_ast)])
   display(['Iteraciones: i = ', num2str(iter)])
   display(['Error: ||A*xk - b||_2 = ', num2str(error)])
