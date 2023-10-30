@@ -38,10 +38,10 @@ function pregunta5_E1()
     [W,T]=calc_W_T(m,h);
 
     iterMax = 5000;
-    tol = 1e-12;
+    tol = 1e-6;
 
     disp(["Caso", num2str(i), ": m = ", num2str(m)]);
-    metodo_3(W,T,f,g,iterMax,tol)
+    pregunta3(W,T,f,g,iterMax,tol)
 
   endfor
 
